@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/book-list.css" type="text/css">
+    <title>books</title>
+</head>
+<body>
+    <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Description</th>
+            <th>Language</th>
+            <th>ISBN</th>
+            <!-- add more columns as needed -->
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>const tbody = document.querySelector('tbody');
+
+        fetch('/assets')
+          .then(res => res.json())
+          .then(data => {
+            console.log(data);
+            // loop through the assets data and add a row to the table for each asset
+            data.forEach(asset => {
+              const tr = document.createElement('tr');
+            //   const idTd = document.createElement('td');
+              const titleTd = document.createElement('td');
+              const authorTd = document.createElement('td');
+              const descriptionTd = document.createElement('td');
+              const langTd = document.createElement('td');
+              const isbnTd = document.createElement('td');
+              // create more <td> elements for additional columns as needed
+        
+            //   idTd.textContent = asset.id;
+              titleTd.textContent = asset.data.title;
+              authorTd.textContent = asset.data.author;
+              descriptionTd.textContent = asset.data.description;
+              langTd.textContent = asset.data.lang;
+              isbnTd.textContent = asset.data.isbn;
+
+              // set the text content of additional <td> elements as needed
+        
+            //   tr.appendChild(idTd);
+              tr.appendChild(titleTd);
+              tr.appendChild(authorTd);
+              tr.appendChild(descriptionTd);
+              tr.appendChild(langTd);
+              tr.appendChild(isbnTd);
+              // append additional <td> elements to the <tr> element as needed
+        
+              tbody.appendChild(tr);
+            });
+          })
+          .catch(err => console.error(err));
+        </script>
+      
+</body>
+</html>

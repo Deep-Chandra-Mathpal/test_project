@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add a Book</title>
+  <link rel="stylesheet" href="/add-book.css" type="text/css">
+</head>
+<body>
+  <h1>Add a Book</h1>
+  <form id="add-book-form">
+    <label for="title">Title:</label>
+    <input type="text" name="title" id="title" required>
+    <br>
+    <label for="author">Author:</label>
+    <input type="text" name="author" id="author" required>
+    <br>
+    <label for="description">Description:</label>
+    <textarea name="description" id="description" required></textarea>
+    <br>
+    <label for="isbn">ISBN:</label>
+    <input type="text" name="isbn" id="isbn" required>
+    <br>
+    <label for="language">Language:</label>
+    <select name="language" id="language" required>
+      <option value="">--Select a Language--</option>
+      <option value="English">English</option>
+      <option value="French">French</option>
+      <option value="Spanish">Spanish</option>
+      <option value="German">German</option>
+    </select>
+    <br>
+    <input type="submit" value="Add Book">
+  </form>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('add-book-form');
+      form.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent default form submission behavior
+        const title = document.getElementById('title').value;
+        const author = document.getElementById('author').value;
+        const description = document.getElementById('description').value;
+        const isbn = document.getElementById('isbn').value;
+        const language = document.getElementById('language').value;
+        const bookData = { title, author, description, isbn, language };
+        console.log(bookData); // Log form data for debugging purposes
+        fetch('/add-book', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bookData)
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          // Redirect to success page
+          window.location.replace('/book-list');
+        })
+        .catch(error => {
+          console.error('Error submitting form:', error);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

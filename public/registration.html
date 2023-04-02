@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Form</title>
+  <link rel="stylesheet" href="/registration.css" type="text/css">
+</head>
+<body>
+  <h1>Registration Form</h1>
+  <form id="registration-form">
+    <label for="name">Name:</label>
+    <input type="text" name="name" id="name" required>
+    <br>
+    <label for="id">ID:</label>
+    <input type="text" name="id" id="id" required>
+    <br>
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email" required>
+    <br>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" required>
+    <br>
+    <label for="confirm-password">Confirm Password:</label>
+    <input type="password" name="confirm-password" id="confirm-password" required>
+    <br>
+    <input type="submit" value="Register">
+  </form>
+  <script>
+    const form = document.getElementById('registration-form');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault(); // Prevent default form submission behavior
+      const name = document.getElementById('name').value;
+      const id = document.getElementById('id').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+      
+      const userData = { name, id, email, password };
+      console.log(userData); // Log form data for debugging purposes
+      
+      fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        // Redirect to success page
+        window.location.replace('/book-list');
+      })
+      .catch(error => {
+        console.error('Error submitting form:', error);
+      });
+    });
+  </script>
+</body>
+</html>
